@@ -1,7 +1,8 @@
 {
   "PAGES": {
-      "HOME": {
-          "TITLE": "JavScraper"
-      }
+    "HOME": {
+      "TITLE": "JavScraper",
+      "OPEN": "Open"
+    }
   }
 }

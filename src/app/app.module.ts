@@ -23,13 +23,15 @@ import localeZh from '@angular/common/locales/zh-Hans';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {registerLocaleData} from '@angular/common';
+import {Observable} from 'rxjs';
+import {TranslateUniversalLoader} from './translate-universal-loader';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
-registerLocaleData(localeZh, 'zh-Hans');
+// registerLocaleData(localeZh, 'zh-Hans');
 
 @NgModule({
   declarations: [AppComponent],
@@ -47,7 +49,7 @@ registerLocaleData(localeZh, 'zh-Hans');
     BrowserAnimationsModule
   ],
   providers: [
-    {provide: LOCALE_ID, useValue: 'zh-Hans'},
+    // {provide: LOCALE_ID, useValue: 'zh-Hans'},
   ],
   bootstrap: [AppComponent]
 })
