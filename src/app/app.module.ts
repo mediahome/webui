@@ -43,6 +43,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
+        // useClass: TranslateUniversalLoader,
         deps: [HttpClient]
       }
     }),
