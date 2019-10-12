@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {ClusterService} from '../cluster.service';
-import {HttpResponse} from '@angular/common/http';
-import {forEach} from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-list',

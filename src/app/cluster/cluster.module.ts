@@ -21,7 +21,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {FormsModule} from '@angular/forms';
-import {FlexLayoutModule} from '@angular/flex-layout';
 import {AddComponent} from './add/add.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {ListComponent} from './list/list.component';
@@ -55,7 +54,6 @@ const PAGES_COMPONENTS = [
     MatSelectModule,
     MatCardModule,
     MatExpansionModule,
-    FlexLayoutModule,
   ]
 })
 export class ClusterModule {

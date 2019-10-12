@@ -1,20 +1,11 @@
-import {NgModule} from '@angular/core';
-import {ExtraOptions, RouterModule, Routes} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 
-const routes: Routes = [
-  {path: 'cluster', loadChildren: () => import('./cluster/cluster.module').then(m => m.ClusterModule)},
-  {path: '', redirectTo: 'cluster', pathMatch: 'full'},
-  {path: '**', redirectTo: 'cluster'},
-];
-const config: ExtraOptions = {
-  useHash: true,
-};
+
+const routes: Routes = [];
 
 @NgModule({
-  exports: [RouterModule],
-  imports: [
-    RouterModule.forRoot(routes, config)
-  ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule { }
