@@ -1,55 +1,79 @@
-// Modules to control application life and create native browser window
-import {app, globalShortcut, BrowserWindow} from 'electron';
+import { app, BrowserWindow, screen } from 'electron';
+import * as path from 'path';
+import * as url from 'url';
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
+let win, serve;
+const args = process.argv.slice(1);
+serve = args.some(val => val === '--serve');
 
 function createWindow() {
+
+  const electronScreen = screen;
+  const size = electronScreen.getPrimaryDisplay().workAreaSize;
+
   // Create the browser window.
-  // mainWindow = new BrowserWindow({width: 800, height: 600, webPreferences: {nodeIntegration: true}});
-  mainWindow = new BrowserWindow({width: 800, height: 600});
-
-  // and load the index.html of the app.
-  mainWindow.loadFile('./dist/electron/index.html');
-  mainWindow.setFullScreen(true);
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
-
-  globalShortcut.register('ESC', () => {
-    mainWindow.setFullScreen(false);
+  win = new BrowserWindow({
+    x: 0,
+    y: 0,
+    width: size.width,
+    height: size.height,
+    webPreferences: {
+      nodeIntegration: true,
+    },
   });
+
+  if (serve) {
+    require('electron-reload')(__dirname, {
+      electron: require(`${__dirname}/node_modules/electron`)
+    });
+    win.loadURL('http://localhost:4200');
+  } else {
+    win.loadURL(url.format({
+      pathname: path.join(__dirname, 'dist/index.html'),
+      protocol: 'file:',
+      slashes: true
+    }));
+  }
+
+  if (serve) {
+    win.webContents.openDevTools();
+  }
+
   // Emitted when the window is closed.
-  mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
+  win.on('closed', () => {
+    // Dereference the window object, usually you would store window
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
-    mainWindow = null;
+    win = null;
   });
+
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+try {
 
-// Quit when all windows are closed.
-app.on('window-all-closed', function () {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
+  // This method will be called when Electron has finished
+  // initialization and is ready to create browser windows.
+  // Some APIs can only be used after this event occurs.
+  app.on('ready', createWindow);
 
-app.on('activate', function () {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow();
-  }
-});
+  // Quit when all windows are closed.
+  app.on('window-all-closed', () => {
+    // On OS X it is common for applications and their menu bar
+    // to stay active until the user quits explicitly with Cmd + Q
+    if (process.platform !== 'darwin') {
+      app.quit();
+    }
+  });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+  app.on('activate', () => {
+    // On OS X it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
+    if (win === null) {
+      createWindow();
+    }
+  });
+
+} catch (e) {
+  // Catch Error
+  // throw e;
+}
